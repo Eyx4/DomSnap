@@ -17,9 +17,9 @@
         #websiteContainer {
             margin-top: 20px;
         }
-        #websiteContainer iframe {
-            width: 100%;
-            height: 500px;
+        #websiteContainer img {
+            max-width: 100%;
+            height: auto;
             border: 1px solid #ccc;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
@@ -47,22 +47,42 @@
             const url = document.getElementById('urlInput').value.trim();
             const date = document.getElementById('dateInput').value;
 
-            // Format date to YYYYMMDD
-            const formattedDate = date.split('-').join('');
+            // Mock URL for archived snapshots (replace with actual logic to handle snapshots)
+            const archiveUrl = getArchiveUrl(url, date);
 
-            // Construct URL to the archived version of the website
-            const archiveUrl = `archives/${formattedDate}/${encodeURIComponent(url)}/index.html`;
+            if (archiveUrl) {
+                const websiteContainer = document.getElementById('websiteContainer');
+                websiteContainer.innerHTML = ''; // Clear previous content
 
-            // Display the archived version in an iframe
-            const websiteContainer = document.getElementById('websiteContainer');
-            websiteContainer.innerHTML = ''; // Clear previous content
+                const img = document.createElement('img');
+                img.src = archiveUrl;
+                img.alt = `Archive of ${url} on ${date}`;
 
-            const iframe = document.createElement('iframe');
-            iframe.src = archiveUrl;
-            iframe.title = `Archive of ${url} on ${date}`;
-
-            websiteContainer.appendChild(iframe);
+                websiteContainer.appendChild(img);
+            } else {
+                alert('Snapshot not found for the specified date.');
+            }
         });
+
+        // Mock function to retrieve archived snapshot URL based on URL and date
+        function getArchiveUrl(url, date) {
+            // Example: Define a mapping of URLs to archived snapshots (replace with actual logic)
+            const archiveMap = {
+                'https://example.com': {
+                    '2023-01-01': 'https://example.com/snapshots/20230101.png',
+                    '2023-02-01': 'https://example.com/snapshots/20230201.png'
+                    // Add more entries for different dates as needed
+                }
+                // Add more URLs with corresponding date snapshots as needed
+            };
+
+            // Check if the specified URL and date exist in the archive map
+            if (archiveMap[url] && archiveMap[url][date]) {
+                return archiveMap[url][date];
+            } else {
+                return null;
+            }
+        }
     </script>
 </body>
 </html>
